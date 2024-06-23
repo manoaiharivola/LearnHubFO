@@ -16,5 +16,9 @@ namespace LearnHubFO.Models
         public CoursCategorie CoursCategorie { get; set; }
         public string? Description { get; set; }
         public DateTime DateCreationCoursUtilisateur { get; set; }
+
+        public int? TotalChapitres { get; set; } = 0;
+
+        public int? CompletedChapitres { get; set; } = 0;
     }
 }

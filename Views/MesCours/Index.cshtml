@@ -129,18 +129,38 @@
                 <th>Catégorie</th>
                 <th>Formateur</th>
                 <th>Date de suivi</th>
+                <th>Progression</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Items)
             {
+                var progressPercentage = item.TotalChapitres > 0 ? (int)((double)item.CompletedChapitres / item.TotalChapitres * 100) : 0;
                 <tr>
                     <td>@Html.DisplayFor(modelItem => item.TitreCours)</td>
                     <td>@Html.DisplayFor(modelItem => item.CoursCategorie.NomCoursCategorie)</td>
                     <td>@Html.DisplayFor(modelItem => item.Formateur.NomFormateur)</td>
                     <td>@item.DateCreationCoursUtilisateur.ToString("dd/MM/yyyy")</td>
-                    <td>
+                    <td >
+                        <div class="progress" style="margin-top: 7px;">
+                            @if (progressPercentage <= 25)
+                            {
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: @progressPercentage%;" aria-valuenow="@progressPercentage" aria-valuemin="0" aria-valuemax="100">@progressPercentage%</div>
+                            }
+
+                            @if (progressPercentage > 25 && progressPercentage <= 50)
+                            {
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: @progressPercentage%;" aria-valuenow="@progressPercentage" aria-valuemin="0" aria-valuemax="100">@progressPercentage%</div>
+                            }
+
+                            @if (progressPercentage > 50)
+                            {
+                                <div class="progress-bar bg-success" role="progressbar" style="width: @progressPercentage%;" aria-valuenow="@progressPercentage" aria-valuemin="0" aria-valuemax="100">@progressPercentage%</div>
+                            }
+                        </div>
+                    </td>
+                    <td class="text-center">
                         <a asp-action="Details" asp-controller="Cours" asp-route-id="@item.IdCours" class="btn btn-primary">Consulter</a>
                     </td>
                 </tr>

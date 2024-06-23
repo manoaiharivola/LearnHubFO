@@ -29,6 +29,14 @@ namespace LearnHubFO.Controllers
 
             var totalCourses = await _coursesService.GetTotalUserCoursesCountAsync(searchTerm, userIdInt);
             var courses = await _coursesService.GetUserCoursesAsync(pageIndex, pageSize, searchTerm, userIdInt);
+
+            foreach (var course in courses)
+            {
+                var (totalChapitres, completedChapitres) = await _coursesService.GetChapitreProgressAsync(course.IdCours, userIdInt);
+                course.TotalChapitres = totalChapitres;
+                course.CompletedChapitres = completedChapitres;
+            }
+
             var viewModel = new PagedResult<CoursSuivi>
             {
                 Items = courses,
