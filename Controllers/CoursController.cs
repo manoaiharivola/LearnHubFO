@@ -49,6 +49,10 @@ namespace LearnHubFO.Controllers
             var chapitres = await _coursesService.GetChapitresByCourseIdAsync(id);
             ViewData["Chapitres"] = chapitres;
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isFollowing = userId != null && await _coursUtilisateurService.EstCoursSuiviAsync(int.Parse(userId), id);
+            ViewData["IsFollowing"] = isFollowing;
+
             return View(course);
         }
 
@@ -62,7 +66,19 @@ namespace LearnHubFO.Controllers
             }
 
             await _coursUtilisateurService.SuivreCoursAsync(int.Parse(userId), id);
+            return RedirectToAction("Details", new { id });
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> NePlusSuivreCours(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            await _coursUtilisateurService.NePlusSuivreCoursAsync(int.Parse(userId), id);
             return RedirectToAction("Details", new { id });
         }
     }

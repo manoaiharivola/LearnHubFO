@@ -1,15 +1,26 @@
 ﻿@model LearnHubBackOffice.Models.Cours
 @{
     var chapitres = (List<LearnHubBO.Models.Chapitre>)ViewData["Chapitres"];
+    var isFollowing = (bool)ViewData["IsFollowing"];
 }
 
 <div style="margin: 50px 200px 0 200px;">
     <h2>Détails du cours</h2>
     <br />
-    <form method="post" asp-action="SuivreCours" asp-route-id="@Model.IdCours" style="margin-bottom: 20px;">
-        <button type="submit" class="btn btn-success">Suivre ce cours</button>
-    </form>
+    @if (!isFollowing)
+    {
+        <form method="post" asp-action="SuivreCours" asp-route-id="@Model.IdCours" style="margin-bottom: 20px;">
+            <button type="submit" class="btn btn-success">Suivre ce cours</button>
+        </form>
+    }
     <dl class="row">
+        
+        @if (isFollowing)
+        {
+            <dt class="col-sm-2">Etat</dt>
+            <dd class="col-sm-10"><span class="badge bg-success">Suivi</span></dd>
+        } 
+
         <dt class="col-sm-2">Titre</dt>
         <dd class="col-sm-10">@Model.TitreCours</dd>
 
@@ -66,5 +77,13 @@
             </dd>
         }
     </dl>
+    
+    @if (isFollowing)
+    {
+        <form method="post" asp-action="NePlusSuivreCours" asp-route-id="@Model.IdCours" style="float: right;">
+            <button type="submit" class="btn btn-danger">Ne plus suivre</button>
+
+        </form>
+    }
     <a href="@Url.Action("Index", "Cours")" class="btn btn-light">Retour à la liste</a>
 </div>

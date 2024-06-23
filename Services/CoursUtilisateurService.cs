@@ -30,5 +30,34 @@ namespace LearnHubFO.Services
                 await command.ExecuteNonQueryAsync();
             }
         }
+
+        public async Task<bool> EstCoursSuiviAsync(int userId, int courseId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var command = new SqlCommand(
+                    "SELECT COUNT(*) FROM CoursUtilisateur WHERE IdCours = @IdCours AND IdUtilisateur = @IdUtilisateur",
+                    connection);
+                command.Parameters.AddWithValue("@IdCours", courseId);
+                command.Parameters.AddWithValue("@IdUtilisateur", userId);
+                await connection.OpenAsync();
+                var count = (int)await command.ExecuteScalarAsync();
+                return count > 0;
+            }
+        }
+
+        public async Task NePlusSuivreCoursAsync(int userId, int courseId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var command = new SqlCommand(
+                    "DELETE FROM CoursUtilisateur WHERE IdCours = @IdCours AND IdUtilisateur = @IdUtilisateur",
+                    connection);
+                command.Parameters.AddWithValue("@IdCours", courseId);
+                command.Parameters.AddWithValue("@IdUtilisateur", userId);
+                await connection.OpenAsync();
+                await command.ExecuteNonQueryAsync();
+            }
+        }
     }
 }
