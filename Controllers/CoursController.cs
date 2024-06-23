@@ -31,5 +31,16 @@ namespace LearnHubFO.Controllers
             ViewData["SearchTerm"] = searchTerm;
             return View(viewModel);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var course = await _coursesService.GetCourseByIdAsync(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return View(course);
+        }
     }
 }
