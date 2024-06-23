@@ -1,4 +1,4 @@
-﻿@model LearnHubFO.Models.PagedResult<LearnHubBackOffice.Models.Cours>
+﻿@model LearnHubFO.Models.PagedResult<ListeCoursUtilisateur>
 
 <div style="margin: 50px 200px 0 200px;">
     <h2>Liste des cours disponibles</h2>
@@ -125,6 +125,7 @@
                 <th>Catégorie</th>
                 <th>Formateur</th>
                 <th>Date de création</th>
+                <th>Etat</th>
                 <th></th>
             </tr>
         </thead>
@@ -136,6 +137,17 @@
                     <td>@Html.DisplayFor(modelItem => item.CoursCategorie.NomCoursCategorie)</td>
                     <td>@Html.DisplayFor(modelItem => item.Formateur.NomFormateur)</td>
                     <td>@item.DateCreationCours.ToString("dd/MM/yyyy")</td>
+                    @if (item.EstSuivi == 1)
+                    {
+                        <td>
+                            <span class="badge bg-success">Suivi</span>
+                        </td>
+                    } else
+                    {
+                        <td>
+                            <span class="badge bg-light" style="color: #737373">Non suivi</span>
+                        </td>
+                    }
                     <td>
                         <a asp-action="Details" asp-route-id="@item.IdCours" class="btn btn-primary">Voir</a>
                     </td>

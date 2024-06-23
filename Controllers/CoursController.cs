@@ -23,9 +23,12 @@ namespace LearnHubFO.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10, string searchTerm = "")
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int userIdInt = userId != null ? int.Parse(userId) : 0;
+
             var totalCourses = await _coursesService.GetTotalCoursesCountAsync(searchTerm);
-            var courses = await _coursesService.GetCoursesAsync(pageIndex, pageSize, searchTerm);
-            var viewModel = new PagedResult<Cours>
+            var courses = await _coursesService.GetCoursesAsync(pageIndex, pageSize, searchTerm, userIdInt) ;
+            var viewModel = new PagedResult<ListeCoursUtilisateur>
             {
                 Items = courses,
                 PageIndex = pageIndex,

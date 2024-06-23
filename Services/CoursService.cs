@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using LearnHubBackOffice.Models;
 using LearnHubBO.Models;
+using LearnHubFO.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace LearnHubFO.Services
@@ -17,16 +18,18 @@ namespace LearnHubFO.Services
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<List<Cours>> GetCoursesAsync(int pageIndex, int pageSize, string searchTerm)
+        public async Task<List<ListeCoursUtilisateur>> GetCoursesAsync(int pageIndex, int pageSize, string searchTerm, int userId)
         {
-            var courses = new List<Cours>();
+            var courses = new List<ListeCoursUtilisateur>();
             using (var connection = new SqlConnection(_connectionString))
             {
                 var command = new SqlCommand(
-                    "SELECT c.*, f.NomFormateur, f.Email AS FormateurEmail, cc.NomCoursCategorie AS CoursCategorieNom " +
+                    "SELECT c.*, f.NomFormateur, f.Email AS FormateurEmail, cc.NomCoursCategorie AS CoursCategorieNom, " +
+                    "CASE WHEN cu.IdCours IS NOT NULL THEN 1 ELSE 0 END AS EstSuivi " +
                     "FROM Courses c " +
                     "JOIN Formateurs f ON c.IdFormateur = f.IdFormateur " +
                     "JOIN CoursCategories cc ON c.IdCoursCategorie = cc.IdCoursCategorie " +
+                    "LEFT JOIN CoursUtilisateur cu ON c.IdCours = cu.IdCours AND cu.IdUtilisateur = @UserId " +
                     "WHERE (@SearchTerm IS NULL OR c.TitreCours LIKE '%' + @SearchTerm + '%') " +
                     "ORDER BY c.DateCreationCours DESC " +
                     "OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY",
@@ -34,12 +37,13 @@ namespace LearnHubFO.Services
                 command.Parameters.AddWithValue("@Offset", (pageIndex - 1) * pageSize);
                 command.Parameters.AddWithValue("@PageSize", pageSize);
                 command.Parameters.AddWithValue("@SearchTerm", string.IsNullOrEmpty(searchTerm) ? (object)DBNull.Value : searchTerm);
+                command.Parameters.AddWithValue("@UserId", userId);
                 await connection.OpenAsync();
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
-                        courses.Add(new Cours
+                        courses.Add(new ListeCoursUtilisateur
                         {
                             IdCours = reader.GetInt32(reader.GetOrdinal("IdCours")),
                             TitreCours = reader.IsDBNull(reader.GetOrdinal("TitreCours")) ? "N/A" : reader.GetString(reader.GetOrdinal("TitreCours")),
@@ -58,7 +62,8 @@ namespace LearnHubFO.Services
                             {
                                 IdCoursCategorie = reader.GetInt32(reader.GetOrdinal("IdCoursCategorie")),
                                 NomCoursCategorie = reader.IsDBNull(reader.GetOrdinal("CoursCategorieNom")) ? "N/A" : reader.GetString(reader.GetOrdinal("CoursCategorieNom"))
-                            }
+                            },
+                            EstSuivi = reader.GetInt32(reader.GetOrdinal("EstSuivi"))
                         });
                     }
                 }
