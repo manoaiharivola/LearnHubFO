@@ -10,8 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace LearnHubFO.Controllers
 {
-
-    [Authorize]
     public class UtilisateursController : Controller
     {
         private readonly UtilisateursService _utilisateursService;
@@ -21,16 +19,12 @@ namespace LearnHubFO.Controllers
             _utilisateursService = utilisateursService;
         }
 
-
-        [AllowAnonymous]
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
-
-        [AllowAnonymous]
         [HttpPost]
         public IActionResult Register(Utilisateur user)
         {
@@ -66,16 +60,12 @@ namespace LearnHubFO.Controllers
             return View(user);
         }
 
-
-        [AllowAnonymous]
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
 
-
-        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
@@ -113,8 +103,14 @@ namespace LearnHubFO.Controllers
             return View(loginModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Utilisateurs");
+        }
 
-        [AllowAnonymous]
         public IActionResult AccessDenied()
         {
             return View();

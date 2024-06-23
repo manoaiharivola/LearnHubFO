@@ -25,7 +25,8 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
             <div class="container px-5">
-                <a class="navbar-brand" href="/Home/Index"><img src="~/assets/images/logo.png" alt="logo" width="200px"/></a>
+                <a class="navbar-brand" href="/Home/Index"><img src="~/assets/images/logo.png" alt="logo" width="200px" /></a>
+                <div class="nav-item nav-link" style="margin-left: 50px;"><h5 style="color: #737373">Bienvenue, @User.Identity.Name</h5></div>
                 <button class="navbar-toggler"
                         type="button"
                         data-bs-toggle="collapse"
@@ -46,12 +47,19 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/Formateurs">Formateurs</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <form method="post" asp-controller="Utilisateurs" asp-action="Logout">
+                                    <button type="submit" class="btn btn-link nav-link" style="color: red">Déconnexion</button>
+                                </form>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
         @RenderBody()
-
     </main>
     <!-- Footer-->
     <footer class="bg-white py-4 mt-auto">
@@ -72,4 +80,3 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
