@@ -4,14 +4,14 @@
     "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\LearnHubFO.csproj": {}
   },
   "projects": {
-    "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\LearnHubFO.csproj": {
+    "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubBO\\LearnHubBO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\LearnHubFO.csproj",
-        "projectName": "LearnHubFO",
-        "projectPath": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\LearnHubFO.csproj",
+        "projectUniqueName": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubBO\\LearnHubBO.csproj",
+        "projectName": "LearnHubBO",
+        "projectPath": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubBO\\LearnHubBO.csproj",
         "packagesPath": "C:\\Users\\My PC\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\obj\\",
+        "outputPath": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubBO\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\My PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,104 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "BCrypt.Net-Core": {
+              "target": "Package",
+              "version": "[1.6.0, )"
+            },
+            "Microsoft.AspNetCore.Session": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[8.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\LearnHubFO.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\LearnHubFO.csproj",
+        "projectName": "LearnHubFO",
+        "projectPath": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\LearnHubFO.csproj",
+        "packagesPath": "C:\\Users\\My PC\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\My PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubBO\\LearnHubBO.csproj": {
+                "projectPath": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubBO\\LearnHubBO.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.6, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

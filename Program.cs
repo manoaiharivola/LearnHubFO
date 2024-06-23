@@ -1,7 +1,11 @@
+using LearnHubFO.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
+builder.Services.AddScoped<UtilisateursService>();
 
 var app = builder.Build();
 
