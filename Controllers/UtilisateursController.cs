@@ -2,6 +2,7 @@
 using LearnHubBackOffice.Models;
 using LearnHubFO.Services;
 using System;
+using LearnHubFO.Models;
 
 namespace LearnHubFO.Controllers
 {
@@ -53,6 +54,28 @@ namespace LearnHubFO.Controllers
             }
 
             return View(user);
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(LoginModel loginModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _utilisateursService.GetUserByEmail(loginModel.Email);
+                if (user != null && user.VerifyPassword(loginModel.Password))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                TempData["ErrorMessage"] = "Les informations de connexion sont incorrectes.";
+            }
+
+            return View(loginModel);
         }
     }
 }

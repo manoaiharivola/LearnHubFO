@@ -41,5 +41,37 @@ namespace LearnHubFO.Services
                 command.ExecuteNonQuery();
             }
         }
+
+        public Utilisateur GetUserByEmail(string email)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("SELECT * FROM Utilisateurs WHERE Email = @Email", connection);
+                    command.Parameters.AddWithValue("@Email", email);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Utilisateur
+                            {
+                                IdUtilisateur = reader.GetInt32(0),
+                                NomUtilisateur = reader.GetString(1),
+                                Email = reader.GetString(2),
+                                MotDePasseHash = reader.GetString(3)
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving the user", ex);
+            }
+            return null;
+        }
     }
 }
