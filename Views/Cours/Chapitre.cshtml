@@ -5,8 +5,19 @@
         <a href="@Url.Action("ExportChapitreToPdf", "Cours", new { id = Model.IdChapitre })" class="btn btn-primary">Exporter en PDF</a>
     </div>
     <a href="@Url.Action("Details", "Cours", new { id = Model.IdCours })" class="btn btn-light">Retour au cours</a>
+
+    @if (Model.IsCompleted)
+    {
+        <div style="display: flex; align-items: center; margin-top: 50px;">
+            <h2 style="margin: 0;">Chapitre @Model.Ordre - @Model.TitreChapitre</h2>
+            <span class="badge bg-success" style="margin-left: 10px;">Terminé</span>
+        </div>
+    }
+    else
+    {
+        <h2 style="margin-top : 50px; ">Chapitre @Model.Ordre - @Model.TitreChapitre</h2>
+    }
     
-    <h2 style="margin-top : 50px; ">Chapitre @Model.Ordre - @Model.TitreChapitre</h2>
     <br />
     <div class="col-sm-10" style="background-color: white; padding: 20px; overflow-x: auto;">
         @Html.Raw(Model.Contenu)
@@ -22,7 +33,18 @@
             <button class="btn btn-outline-dark" disabled>Consulter précédent chapitre</button>
         }
 
-        <button class="btn btn-success">Marquer comme terminé</button>
+        @if (Model.IsCompleted)
+        {
+            <form method="post" asp-action="NePasMarquerCommeTermine" asp-route-id="@Model.IdChapitre">
+                <button type="submit" class="btn btn-outline-danger">Ne plus marquer comme terminé</button>
+            </form>
+        }
+        else
+        {
+            <form method="post" asp-action="MarquerCommeTermine" asp-route-id="@Model.IdChapitre">
+                <button type="submit" class="btn btn-success">Marquer comme terminé</button>
+            </form>
+        }
 
         @if (Model.NextChapitreId.HasValue)
         {

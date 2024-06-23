@@ -18,13 +18,16 @@ namespace LearnHubFO.Controllers
         private readonly CoursUtilisateurService _coursUtilisateurService;
         private readonly ChapitreService _chapitreService;
         private readonly PdfGeneratorUtil _pdfGeneratorUtil;
+        private readonly ChapitreUtilisateurService _chapitreUtilisateurService;
 
-        public CoursController(CoursService coursesService, CoursUtilisateurService coursUtilisateurService, ChapitreService chapitreService, PdfGeneratorUtil pdfGeneratorUtil)
+        public CoursController(CoursService coursesService, CoursUtilisateurService coursUtilisateurService, ChapitreService chapitreService, PdfGeneratorUtil pdfGeneratorUtil, ChapitreUtilisateurService chapitreUtilisateurService)
         {
             _coursesService = coursesService;
             _coursUtilisateurService = coursUtilisateurService;
             _chapitreService = chapitreService;
             _pdfGeneratorUtil = pdfGeneratorUtil;
+            _chapitreUtilisateurService = chapitreUtilisateurService;
+            _chapitreUtilisateurService = chapitreUtilisateurService;
         }
 
         [HttpGet]
@@ -101,6 +104,12 @@ namespace LearnHubFO.Controllers
             {
                 return NotFound();
             }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isCompleted = await _chapitreUtilisateurService.IsChapitreCompletedAsync(id, int.Parse(userId));
+
+            chapitre.IsCompleted = isCompleted;
+
             return View(chapitre);
         }
 
@@ -128,6 +137,22 @@ namespace LearnHubFO.Controllers
             var pdfBytes = _pdfGeneratorUtil.ConvertHtmlToPdf(htmlContent);
 
             return File(pdfBytes, "application/pdf", $"Chapitre {chapitre.Ordre} - {chapitre.TitreChapitre}.pdf");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MarquerCommeTermine(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await _chapitreUtilisateurService.MarquerCommeTermineAsync(id, int.Parse(userId));
+            return RedirectToAction("Chapitre", new { id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> NePasMarquerCommeTermine(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            await _chapitreUtilisateurService.NePasMarquerCommeTermineAsync(id, int.Parse(userId));
+            return RedirectToAction("Chapitre", new { id });
         }
     }
 }

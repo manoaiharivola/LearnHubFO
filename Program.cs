@@ -12,6 +12,7 @@ builder.Services.AddScoped<CoursService>();
 builder.Services.AddScoped<CoursUtilisateurService>();
 builder.Services.AddScoped<ChapitreService>();
 builder.Services.AddScoped<PdfGeneratorUtil>();
+builder.Services.AddScoped<ChapitreUtilisateurService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(options =>

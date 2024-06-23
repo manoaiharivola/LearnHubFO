@@ -16,5 +16,7 @@ namespace LearnHubFO.Models
         public DateTime DateModificationChapitre { get; set; }
         public int? PreviousChapitreId { get; set; }
         public int? NextChapitreId { get; set; }
+
+        public bool IsCompleted { get; set; }
     }
 }
