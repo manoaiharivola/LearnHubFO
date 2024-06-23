@@ -1,41 +1,103 @@
-﻿@model IEnumerable<LearnHubBackOffice.Models.Cours>
+﻿@model LearnHubFO.Models.PagedResult<LearnHubBackOffice.Models.Cours>
 
-@{
-    ViewData["Title"] = "Courses";
-}
-
-<h2>Courses</h2>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.TitreCours)</th>
-            <th>@Html.DisplayNameFor(model => model.Description)</th>
-            <th>@Html.DisplayNameFor(model => model.DateCreationCours)</th>
-            <th>@Html.DisplayNameFor(model => model.DateModificationCours)</th>
-            <th>Formateur</th>
-            <th>Categorie</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div style="margin: 50px 200px 0 200px;">
+    <h2>Liste des cours disponibles</h2>
+    <br />
+    <table class="table">
+        <thead>
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.TitreCours)</td>
-                <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                <td>@Html.DisplayFor(modelItem => item.DateCreationCours)</td>
-                <td>@Html.DisplayFor(modelItem => item.DateModificationCours)</td>
-                <td>@Html.DisplayFor(modelItem => item.Formateur.NomFormateur)</td>
-                <td>@Html.DisplayFor(modelItem => item.CoursCategorie.NomCoursCategorie)</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdCours" class="btn btn-primary">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.IdCours" class="btn btn-info">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.IdCours" class="btn btn-danger">Delete</a>
-                </td>
+                <th>Titre</th>
+                <th>Formateur</th>
+                <th>Catégorie</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.TitreCours)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Formateur.NomFormateur)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CoursCategorie.NomCoursCategorie)</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.IdCours" class="btn btn-primary">Voir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<a asp-action="Create" class="btn btn-success">Create New</a>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            @if (Model.HasPreviousPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex - 1)">Précédent</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">Précédent</span>
+                </li>
+            }
+
+            @if (Model.PageIndex >= 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Index" asp-route-pageIndex="1">1</a>
+                </li>
+            }
+
+            @if (Model.PageIndex > 4)
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+            }
+
+            @for (int i = Math.Max(2, Model.PageIndex - 2); i <= Math.Min(Model.TotalPages - 1, Model.PageIndex + 2); i++)
+            {
+                if (i == Model.PageIndex)
+                {
+                    <li class="page-item active">
+                        <span class="page-link">@i</span>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-action="Index" asp-route-pageIndex="@i">@i</a>
+                    </li>
+                }
+            }
+
+            @if (Model.PageIndex < Model.TotalPages - 3)
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+            }
+
+            @if (Model.PageIndex <= Model.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Index" asp-route-pageIndex="@(Model.TotalPages)">@Model.TotalPages</a>
+                </li>
+            }
+
+            @if (Model.HasNextPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex + 1)">Suivant</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item disabled">
+                    <span class="page-link">Suivant</span>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

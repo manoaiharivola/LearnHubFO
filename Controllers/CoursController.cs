@@ -1,12 +1,16 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LearnHubFO.Services;
+using LearnHubFO.Models;
+using System;
+using LearnHubBackOffice.Models;
 
 namespace LearnHubFO.Controllers
 {
     public class CoursController : Controller
     {
         private readonly CoursService _coursesService;
+        private const int PageSize = 1;
 
         public CoursController(CoursService coursesService)
         {
@@ -14,10 +18,18 @@ namespace LearnHubFO.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageIndex = 1)
         {
-            var courses = await _coursesService.GetAllCoursesAsync();
-            return View(courses);
+            var totalCourses = await _coursesService.GetTotalCoursesCountAsync();
+            var courses = await _coursesService.GetCoursesAsync(pageIndex, PageSize);
+            var viewModel = new PagedResult<Cours>
+            {
+                Items = courses,
+                PageIndex = pageIndex,
+                TotalItems = totalCourses,
+                PageSize = PageSize
+            };
+            return View(viewModel);
         }
     }
 }
