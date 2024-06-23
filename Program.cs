@@ -9,6 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<UtilisateursService>();
 builder.Services.AddScoped<CoursService>();
 builder.Services.AddScoped<CoursUtilisateurService>();
+builder.Services.AddScoped<ChapitreService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(options =>

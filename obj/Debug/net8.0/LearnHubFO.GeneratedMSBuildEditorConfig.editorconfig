@@ -26,6 +26,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\My PC\source\repos\LearnHub\LearnHubFO
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/My PC/source/repos/LearnHub/LearnHubFO/Views/Cours/Chapitre.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNcQ2hhcGl0cmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/My PC/source/repos/LearnHub/LearnHubFO/Views/Cours/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

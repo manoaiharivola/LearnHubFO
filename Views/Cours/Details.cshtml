@@ -62,6 +62,10 @@
                         <tr>
                             <th width="200px">Numero</th>
                             <th width="300px">Titre</th>
+                            @if (isFollowing)
+                            {
+                                <th></th>
+                            }
                         </tr>
                     </thead>
                     <tbody>
@@ -70,6 +74,10 @@
                             <tr>
                                 <td>Chapitre @chapitre.Ordre</td>
                                 <td>@chapitre.TitreChapitre</td>
+                                @if (isFollowing)
+                                {
+                                    <td><a asp-action="Chapitre" asp-route-id="@chapitre.IdChapitre" class="btn btn-primary">Consulter</a></td>
+                                }
                             </tr>
                         }
                     </tbody>
@@ -85,5 +93,5 @@
 
         </form>
     }
-    <a href="@Url.Action("Index", "Cours")" class="btn btn-light">Retour à la liste</a>
+    <a href="@Url.Action("Index", "Cours")" class="btn btn-light">Retour à la liste des cours</a>
 </div>

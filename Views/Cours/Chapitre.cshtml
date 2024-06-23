@@ -1,0 +1,11 @@
+﻿@model LearnHubBO.Models.Chapitre
+
+<div style="margin: 50px 200px 0 200px;">
+    <h2>Chapitre @Model.Ordre - @Model.TitreChapitre</h2>
+    <br />
+    <div class="col-sm-10" style="background-color: white; padding: 20px;">
+        @Html.Raw(Model.Contenu)
+    </div>
+    <br />
+    <a href="@Url.Action("Details", "Cours", new { id = Model.IdCours })" class="btn btn-light">Retour au cours</a>
+</div>

@@ -13,11 +13,13 @@ namespace LearnHubFO.Controllers
     {
         private readonly CoursService _coursesService;
         private readonly CoursUtilisateurService _coursUtilisateurService;
+        private readonly ChapitreService _chapitreService;
 
-        public CoursController(CoursService coursesService, CoursUtilisateurService coursUtilisateurService)
+        public CoursController(CoursService coursesService, CoursUtilisateurService coursUtilisateurService, ChapitreService chapitreService)
         {
             _coursesService = coursesService;
             _coursUtilisateurService = coursUtilisateurService;
+            _chapitreService = chapitreService;
         }
 
         [HttpGet]
@@ -83,6 +85,18 @@ namespace LearnHubFO.Controllers
 
             await _coursUtilisateurService.NePlusSuivreCoursAsync(int.Parse(userId), id);
             return RedirectToAction("Details", new { id });
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Chapitre(int id)
+        {
+            var chapitre = await _chapitreService.GetChapitreByIdAsync(id);
+            if (chapitre == null)
+            {
+                return NotFound();
+            }
+            return View(chapitre);
         }
     }
 }
