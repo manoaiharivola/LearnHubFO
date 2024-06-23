@@ -17,7 +17,7 @@ namespace LearnHubFO.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 1)
+        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10)
         {
             var totalCourses = await _coursesService.GetTotalCoursesCountAsync();
             var courses = await _coursesService.GetCoursesAsync(pageIndex, pageSize);
