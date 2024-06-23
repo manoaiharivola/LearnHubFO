@@ -18,7 +18,7 @@ namespace LearnHubFO.Services
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<List<ListeCoursUtilisateur>> GetCoursesAsync(int pageIndex, int pageSize, string searchTerm, int userId)
+        public async Task<List<ListeCoursUtilisateur>> GetCoursesWithFollowingStatusOfUserAsync(int pageIndex, int pageSize, string searchTerm, int userId)
         {
             var courses = new List<ListeCoursUtilisateur>();
             using (var connection = new SqlConnection(_connectionString))
