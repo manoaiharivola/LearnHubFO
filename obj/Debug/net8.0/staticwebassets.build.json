@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "obmMrQEIibaPXkI/qpWcBTuO7ZN3To2ejL6eQOOs07I=",
+  "Hash": "GhrdbbhSv7q5G+JRvDl+BODEL0DigbLaEodhjjCLcco=",
   "Source": "LearnHubFO",
   "BasePath": "_content/LearnHubFO",
   "Mode": "Default",
@@ -14873,6 +14873,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\front\\js\\scripts.js"
+    },
+    {
+      "Identity": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\wwwroot\\wkhtmltopdf\\wkhtmltopdf.exe",
+      "SourceId": "LearnHubFO",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\wwwroot\\",
+      "BasePath": "_content/LearnHubFO",
+      "RelativePath": "wkhtmltopdf/wkhtmltopdf.exe",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\wkhtmltopdf\\wkhtmltopdf.exe"
     }
   ]
 }

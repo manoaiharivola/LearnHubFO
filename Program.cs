@@ -1,4 +1,5 @@
 using LearnHubFO.Services;
+using LearnHubFO.Utils;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddScoped<UtilisateursService>();
 builder.Services.AddScoped<CoursService>();
 builder.Services.AddScoped<CoursUtilisateurService>();
 builder.Services.AddScoped<ChapitreService>();
+builder.Services.AddScoped<PdfGeneratorUtil>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(options =>

@@ -1569,6 +1569,10 @@
       "PackagePath": "staticwebassets\\front\\js\\scripts.js"
     },
     {
+      "Id": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\wwwroot\\wkhtmltopdf\\wkhtmltopdf.exe",
+      "PackagePath": "staticwebassets\\wkhtmltopdf\\wkhtmltopdf.exe"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.LearnHubFO.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

@@ -5,6 +5,9 @@ using LearnHubFO.Models;
 using LearnHubBackOffice.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using LearnHubFO.Utils;
 
 namespace LearnHubFO.Controllers
 {
@@ -14,12 +17,14 @@ namespace LearnHubFO.Controllers
         private readonly CoursService _coursesService;
         private readonly CoursUtilisateurService _coursUtilisateurService;
         private readonly ChapitreService _chapitreService;
+        private readonly PdfGeneratorUtil _pdfGeneratorUtil;
 
-        public CoursController(CoursService coursesService, CoursUtilisateurService coursUtilisateurService, ChapitreService chapitreService)
+        public CoursController(CoursService coursesService, CoursUtilisateurService coursUtilisateurService, ChapitreService chapitreService, PdfGeneratorUtil pdfGeneratorUtil)
         {
             _coursesService = coursesService;
             _coursUtilisateurService = coursUtilisateurService;
             _chapitreService = chapitreService;
+            _pdfGeneratorUtil = pdfGeneratorUtil;
         }
 
         [HttpGet]
@@ -97,6 +102,32 @@ namespace LearnHubFO.Controllers
                 return NotFound();
             }
             return View(chapitre);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExportChapitreToPdf(int id)
+        {
+            var chapitre = await _chapitreService.GetChapitreByIdAsync(id);
+
+            if (chapitre == null)
+            {
+                return NotFound();
+            }
+
+            var htmlContent = $@"
+            <html>
+            <head>
+                <title>Chapitre {chapitre.Ordre} - {chapitre.TitreChapitre}</title>
+            </head>
+            <body>
+                <h1>Chapitre {chapitre.Ordre} - {chapitre.TitreChapitre}</h1>
+                {chapitre.Contenu}
+            </body>
+            </html>";
+
+            var pdfBytes = _pdfGeneratorUtil.ConvertHtmlToPdf(htmlContent);
+
+            return File(pdfBytes, "application/pdf", $"Chapitre {chapitre.Ordre} - {chapitre.TitreChapitre}.pdf");
         }
     }
 }

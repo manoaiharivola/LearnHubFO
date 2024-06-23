@@ -264,3 +264,4 @@ C:\Users\My PC\source\repos\LearnHub\LearnHubFO\obj\Debug\net8.0\refint\LearnHub
 C:\Users\My PC\source\repos\LearnHub\LearnHubFO\obj\Debug\net8.0\LearnHubFO.pdb
 C:\Users\My PC\source\repos\LearnHub\LearnHubFO\obj\Debug\net8.0\LearnHubFO.genruntimeconfig.cache
 C:\Users\My PC\source\repos\LearnHub\LearnHubFO\obj\Debug\net8.0\ref\LearnHubFO.dll
+C:\Users\My PC\source\repos\LearnHub\LearnHubFO\bin\Debug\net8.0\DinkToPdf.dll

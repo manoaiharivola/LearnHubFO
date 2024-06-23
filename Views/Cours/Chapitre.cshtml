@@ -1,6 +1,9 @@
 ﻿@model LearnHubBO.Models.Chapitre
 
 <div style="margin: 50px 200px 0 200px;">
+    <div style="float: right;">
+        <a href="@Url.Action("ExportChapitreToPdf", "Cours", new { id = Model.IdChapitre })" class="btn btn-primary">Exporter en PDF</a>
+    </div>
     <h2>Chapitre @Model.Ordre - @Model.TitreChapitre</h2>
     <br />
     <div class="col-sm-10" style="background-color: white; padding: 20px; overflow-x: auto;">
