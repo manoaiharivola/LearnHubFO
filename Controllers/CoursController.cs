@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using LearnHubFO.Services;
 using LearnHubFO.Models;
-using System;
 using LearnHubBackOffice.Models;
 
 namespace LearnHubFO.Controllers
@@ -17,10 +16,10 @@ namespace LearnHubFO.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10, string searchTerm = "")
         {
-            var totalCourses = await _coursesService.GetTotalCoursesCountAsync();
-            var courses = await _coursesService.GetCoursesAsync(pageIndex, pageSize);
+            var totalCourses = await _coursesService.GetTotalCoursesCountAsync(searchTerm);
+            var courses = await _coursesService.GetCoursesAsync(pageIndex, pageSize, searchTerm);
             var viewModel = new PagedResult<Cours>
             {
                 Items = courses,
@@ -29,6 +28,7 @@ namespace LearnHubFO.Controllers
                 PageSize = pageSize
             };
             ViewData["PageSize"] = pageSize;
+            ViewData["SearchTerm"] = searchTerm;
             return View(viewModel);
         }
     }

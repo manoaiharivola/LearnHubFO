@@ -16,7 +16,7 @@ namespace LearnHubFO.Services
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<List<Cours>> GetCoursesAsync(int pageIndex, int pageSize)
+        public async Task<List<Cours>> GetCoursesAsync(int pageIndex, int pageSize, string searchTerm)
         {
             var courses = new List<Cours>();
             using (var connection = new SqlConnection(_connectionString))
@@ -26,11 +26,13 @@ namespace LearnHubFO.Services
                     "FROM Courses c " +
                     "JOIN Formateurs f ON c.IdFormateur = f.IdFormateur " +
                     "JOIN CoursCategories cc ON c.IdCoursCategorie = cc.IdCoursCategorie " +
+                    "WHERE (@SearchTerm IS NULL OR c.TitreCours LIKE '%' + @SearchTerm + '%') " +
                     "ORDER BY c.DateCreationCours DESC " +
                     "OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY",
                     connection);
                 command.Parameters.AddWithValue("@Offset", (pageIndex - 1) * pageSize);
                 command.Parameters.AddWithValue("@PageSize", pageSize);
+                command.Parameters.AddWithValue("@SearchTerm", string.IsNullOrEmpty(searchTerm) ? (object)DBNull.Value : searchTerm);
                 await connection.OpenAsync();
                 using (var reader = await command.ExecuteReaderAsync())
                 {
@@ -63,11 +65,15 @@ namespace LearnHubFO.Services
             return courses;
         }
 
-        public async Task<int> GetTotalCoursesCountAsync()
+        public async Task<int> GetTotalCoursesCountAsync(string searchTerm)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                var command = new SqlCommand("SELECT COUNT(*) FROM Courses", connection);
+                var command = new SqlCommand(
+                    "SELECT COUNT(*) FROM Courses c " +
+                    "WHERE (@SearchTerm IS NULL OR c.TitreCours LIKE '%' + @SearchTerm + '%')",
+                    connection);
+                command.Parameters.AddWithValue("@SearchTerm", string.IsNullOrEmpty(searchTerm) ? (object)DBNull.Value : searchTerm);
                 await connection.OpenAsync();
                 return (int)await command.ExecuteScalarAsync();
             }
