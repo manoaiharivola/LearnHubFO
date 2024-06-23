@@ -26,7 +26,7 @@ namespace LearnHubFO.Services
                     "FROM Courses c " +
                     "JOIN Formateurs f ON c.IdFormateur = f.IdFormateur " +
                     "JOIN CoursCategories cc ON c.IdCoursCategorie = cc.IdCoursCategorie " +
-                    "ORDER BY c.IdCours " +
+                    "ORDER BY c.DateCreationCours DESC " +
                     "OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY",
                     connection);
                 command.Parameters.AddWithValue("@Offset", (pageIndex - 1) * pageSize);

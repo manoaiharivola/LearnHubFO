@@ -117,6 +117,7 @@
                 <th>Titre</th>
                 <th>Catégorie</th>
                 <th>Formateur</th>
+                <th>Date de création</th>
                 <th></th>
             </tr>
         </thead>
@@ -127,6 +128,7 @@
                     <td>@Html.DisplayFor(modelItem => item.TitreCours)</td>
                     <td>@Html.DisplayFor(modelItem => item.CoursCategorie.NomCoursCategorie)</td>
                     <td>@Html.DisplayFor(modelItem => item.Formateur.NomFormateur)</td>
+                    <td>@item.DateCreationCours.ToString("dd/MM/yyyy")</td>
                     <td>
                         <a asp-action="Details" asp-route-id="@item.IdCours" class="btn btn-primary">Voir</a>
                     </td>
