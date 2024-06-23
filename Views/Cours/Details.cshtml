@@ -1,6 +1,6 @@
 ﻿@model LearnHubBackOffice.Models.Cours
 @{
-    var chapitres = (List<LearnHubBO.Models.Chapitre>)ViewData["Chapitres"];
+    var chapitres = (List<ConsulterChapitre>)ViewData["Chapitres"];
     var isFollowing = (bool)ViewData["IsFollowing"];
 }
 
@@ -64,6 +64,7 @@
                             <th width="300px">Titre</th>
                             @if (isFollowing)
                             {
+                                <th>Etat</th>
                                 <th></th>
                             }
                         </tr>
@@ -76,6 +77,16 @@
                                 <td>@chapitre.TitreChapitre</td>
                                 @if (isFollowing)
                                 {
+                                    <td>
+                                        @if (chapitre.IsCompleted)
+                                        {
+                                            <span class="badge bg-success">Terminé</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-light" style="color: #737373">Non terminé</span>
+                                        }
+                                    </td>
                                     <td><a asp-action="Chapitre" asp-route-id="@chapitre.IdChapitre" class="btn btn-primary">Consulter</a></td>
                                 }
                             </tr>
@@ -89,7 +100,7 @@
     @if (isFollowing)
     {
         <form method="post" asp-action="NePlusSuivreCours" asp-route-id="@Model.IdCours" style="float: right;">
-            <button type="submit" class="btn btn-danger">Ne plus suivre</button>
+            <button type="submit" class="btn btn-danger">Ne plus suivre ce cours</button>
 
         </form>
     }

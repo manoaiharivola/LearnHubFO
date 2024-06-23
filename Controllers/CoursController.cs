@@ -59,10 +59,10 @@ namespace LearnHubFO.Controllers
                 return NotFound();
             }
 
-            var chapitres = await _coursesService.GetChapitresByCourseIdAsync(id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var chapitres = await _coursesService.GetChapitresByCourseIdAsync(id, int.Parse(userId));
             ViewData["Chapitres"] = chapitres;
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var isFollowing = userId != null && await _coursUtilisateurService.EstCoursSuiviAsync(int.Parse(userId), id);
             ViewData["IsFollowing"] = isFollowing;
 

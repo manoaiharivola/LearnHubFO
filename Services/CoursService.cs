@@ -129,23 +129,27 @@ namespace LearnHubFO.Services
             return null;
         }
 
-        public async Task<List<Chapitre>> GetChapitresByCourseIdAsync(int courseId)
+        public async Task<List<ConsulterChapitre>> GetChapitresByCourseIdAsync(int courseId, int userId)
         {
-            var chapitres = new List<Chapitre>();
+            var chapitres = new List<ConsulterChapitre>();
             using (var connection = new SqlConnection(_connectionString))
             {
                 var command = new SqlCommand(
-                    "SELECT * FROM Chapitres " +
-                    "WHERE IdCours = @IdCours " +
-                    "ORDER BY Ordre",
+                    "SELECT c.*, " +
+                    "CASE WHEN cu.IdChapitre IS NOT NULL THEN 1 ELSE 0 END AS IsCompleted " +
+                    "FROM Chapitres c " +
+                    "LEFT JOIN ChapitreUtilisateur cu ON c.IdChapitre = cu.IdChapitre AND cu.IdUtilisateur = @UserId " +
+                    "WHERE c.IdCours = @IdCours " +
+                    "ORDER BY c.Ordre",
                     connection);
                 command.Parameters.AddWithValue("@IdCours", courseId);
+                command.Parameters.AddWithValue("@UserId", userId);
                 await connection.OpenAsync();
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
-                        chapitres.Add(new Chapitre
+                        chapitres.Add(new ConsulterChapitre
                         {
                             IdChapitre = reader.GetInt32(reader.GetOrdinal("IdChapitre")),
                             TitreChapitre = reader.GetString(reader.GetOrdinal("TitreChapitre")),
@@ -153,13 +157,15 @@ namespace LearnHubFO.Services
                             Contenu = reader.GetString(reader.GetOrdinal("Contenu")),
                             IdCours = reader.GetInt32(reader.GetOrdinal("IdCours")),
                             DateCreationChapitre = reader.GetDateTime(reader.GetOrdinal("DateCreationChapitre")),
-                            DateModificationChapitre = reader.GetDateTime(reader.GetOrdinal("DateModificationChapitre"))
+                            DateModificationChapitre = reader.GetDateTime(reader.GetOrdinal("DateModificationChapitre")),
+                            IsCompleted = reader.GetInt32(reader.GetOrdinal("IsCompleted")) == 1
                         });
                     }
                 }
             }
             return chapitres;
         }
+
 
         public async Task<List<CoursSuivi>> GetUserCoursesAsync(int pageIndex, int pageSize, string searchTerm, int userId)
         {
