@@ -1553,6 +1553,22 @@
       "PackagePath": "staticwebassets\\assets\\vendors\\typeahead.js\\typeahead.bundle.min.js"
     },
     {
+      "Id": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\wwwroot\\front\\assets\\favicon.ico",
+      "PackagePath": "staticwebassets\\front\\assets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\wwwroot\\front\\assets\\profile.png",
+      "PackagePath": "staticwebassets\\front\\assets\\profile.png"
+    },
+    {
+      "Id": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\wwwroot\\front\\css\\styles.css",
+      "PackagePath": "staticwebassets\\front\\css\\styles.css"
+    },
+    {
+      "Id": "C:\\Users\\My PC\\source\\repos\\LearnHub\\LearnHubFO\\wwwroot\\front\\js\\scripts.js",
+      "PackagePath": "staticwebassets\\front\\js\\scripts.js"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.LearnHubFO.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
