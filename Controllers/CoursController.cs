@@ -3,16 +3,21 @@ using Microsoft.AspNetCore.Mvc;
 using LearnHubFO.Services;
 using LearnHubFO.Models;
 using LearnHubBackOffice.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace LearnHubFO.Controllers
 {
+    [Authorize]
     public class CoursController : Controller
     {
         private readonly CoursService _coursesService;
+        private readonly CoursUtilisateurService _coursUtilisateurService;
 
-        public CoursController(CoursService coursesService)
+        public CoursController(CoursService coursesService, CoursUtilisateurService coursUtilisateurService)
         {
             _coursesService = coursesService;
+            _coursUtilisateurService = coursUtilisateurService;
         }
 
         [HttpGet]
@@ -45,6 +50,20 @@ namespace LearnHubFO.Controllers
             ViewData["Chapitres"] = chapitres;
 
             return View(course);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SuivreCours(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            await _coursUtilisateurService.SuivreCoursAsync(int.Parse(userId), id);
+
+            return RedirectToAction("Details", new { id });
         }
     }
 }

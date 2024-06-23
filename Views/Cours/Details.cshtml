@@ -6,6 +6,9 @@
 <div style="margin: 50px 200px 0 200px;">
     <h2>Détails du cours</h2>
     <br />
+    <form method="post" asp-action="SuivreCours" asp-route-id="@Model.IdCours" style="margin-bottom: 20px;">
+        <button type="submit" class="btn btn-success">Suivre ce cours</button>
+    </form>
     <dl class="row">
         <dt class="col-sm-2">Titre</dt>
         <dd class="col-sm-10">@Model.TitreCours</dd>
