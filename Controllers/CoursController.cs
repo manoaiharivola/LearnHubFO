@@ -26,7 +26,7 @@ namespace LearnHubFO.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             int userIdInt = userId != null ? int.Parse(userId) : 0;
 
-            var totalCourses = await _coursesService.GetTotalCoursesCountAsync(searchTerm);
+            var totalCourses = await _coursesService.GetTotalCoursesWithFollowingStatusOfUserCountAsync(searchTerm);
             var courses = await _coursesService.GetCoursesWithFollowingStatusOfUserAsync(pageIndex, pageSize, searchTerm, userIdInt) ;
             var viewModel = new PagedResult<ListeCoursUtilisateur>
             {

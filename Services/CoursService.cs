@@ -71,7 +71,7 @@ namespace LearnHubFO.Services
             return courses;
         }
 
-        public async Task<int> GetTotalCoursesCountAsync(string searchTerm)
+        public async Task<int> GetTotalCoursesWithFollowingStatusOfUserCountAsync(string searchTerm)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
