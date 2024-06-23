@@ -236,5 +236,30 @@ namespace LearnHubFO.Services
                 return (int)await command.ExecuteScalarAsync();
             }
         }
+
+        public async Task<(int totalChapitres, int completedChapitres)> GetChapitreProgressAsync(int courseId, int userId)
+        {
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var command = new SqlCommand(
+                    "SELECT " +
+                    "(SELECT COUNT(*) FROM Chapitres WHERE IdCours = @CourseId) AS TotalChapitres, " +
+                    "(SELECT COUNT(*) FROM ChapitreUtilisateur WHERE IdChapitre IN (SELECT IdChapitre FROM Chapitres WHERE IdCours = @CourseId) AND IdUtilisateur = @UserId) AS CompletedChapitres",
+                    connection);
+                command.Parameters.AddWithValue("@CourseId", courseId);
+                command.Parameters.AddWithValue("@UserId", userId);
+                await connection.OpenAsync();
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    if (await reader.ReadAsync())
+                    {
+                        int totalChapitres = reader.GetInt32(reader.GetOrdinal("TotalChapitres"));
+                        int completedChapitres = reader.GetInt32(reader.GetOrdinal("CompletedChapitres"));
+                        return (totalChapitres, completedChapitres);
+                    }
+                }
+            }
+            return (0, 0);
+        }
     }
 }

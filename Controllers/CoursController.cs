@@ -66,6 +66,10 @@ namespace LearnHubFO.Controllers
             var isFollowing = userId != null && await _coursUtilisateurService.EstCoursSuiviAsync(int.Parse(userId), id);
             ViewData["IsFollowing"] = isFollowing;
 
+            var (totalChapitres, completedChapitres) = await _coursesService.GetChapitreProgressAsync(id, int.Parse(userId));
+            ViewData["TotalChapitres"] = totalChapitres;
+            ViewData["CompletedChapitres"] = completedChapitres;
+
             return View(course);
         }
 
