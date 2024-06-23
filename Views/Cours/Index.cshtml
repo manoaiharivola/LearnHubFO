@@ -3,6 +3,20 @@
 <div style="margin: 50px 200px 0 200px;">
     <h2>Liste des cours disponibles</h2>
     <br />
+    <div>
+        <form method="get" asp-action="Index" class="form-inline">
+            <label for="pageSize">Éléments par page:</label>
+            <select id="pageSize" name="pageSize" asp-for="@ViewData["PageSize"]" class="form-control ml-2" onchange="this.form.submit()">
+                <option value="1" selected="@((int)ViewData["PageSize"] == 1)">1</option>
+                <option value="2" selected="@((int)ViewData["PageSize"] == 2)">2</option>
+                <option value="5" selected="@((int)ViewData["PageSize"] == 5)">5</option>
+            </select>
+            <input type="hidden" name="pageIndex" value="1" />
+        </form>
+    </div>
+    <div>
+        <p>@Model.FirstItemIndex - @Model.LastItemIndex sur @Model.TotalItems éléments</p>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -32,7 +46,7 @@
             @if (Model.HasPreviousPage)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex - 1)">Précédent</a>
+                    <a class="page-link" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex - 1)" asp-route-pageSize="@(Model.PageSize)">Précédent</a>
                 </li>
             }
             else
@@ -44,9 +58,18 @@
 
             @if (Model.PageIndex >= 1)
             {
-                <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-pageIndex="1">1</a>
-                </li>
+                if (1 == Model.PageIndex)
+                {
+                    <li class="page-item active">
+                        <a class="page-link" asp-action="Index" asp-route-pageIndex="1" asp-route-pageSize="@(Model.PageSize)">1</a>
+                    </li>
+                } else
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-action="Index" asp-route-pageIndex="1" asp-route-pageSize="@(Model.PageSize)">1</a>
+                    </li>
+                }
+                
             }
 
             @if (Model.PageIndex > 4)
@@ -67,7 +90,7 @@
                 else
                 {
                     <li class="page-item">
-                        <a class="page-link" asp-action="Index" asp-route-pageIndex="@i">@i</a>
+                        <a class="page-link" asp-action="Index" asp-route-pageIndex="@i" asp-route-pageSize="@(Model.PageSize)">@i</a>
                     </li>
                 }
             }
@@ -81,15 +104,24 @@
 
             @if (Model.PageIndex <= Model.TotalPages)
             {
-                <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-pageIndex="@(Model.TotalPages)">@Model.TotalPages</a>
-                </li>
+                if (Model.TotalPages == Model.PageIndex)
+                {
+                    <li class="page-item active">
+                        <a class="page-link" asp-action="Index" asp-route-pageIndex="@(Model.TotalPages)" asp-route-pageSize="@(Model.PageSize)">@Model.TotalPages</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-action="Index" asp-route-pageIndex="@(Model.TotalPages)" asp-route-pageSize="@(Model.PageSize)">@Model.TotalPages</a>
+                    </li>
+                }
             }
 
             @if (Model.HasNextPage)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex + 1)">Suivant</a>
+                    <a class="page-link" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex + 1)" asp-route-pageSize="@(Model.PageSize)">Suivant</a>
                 </li>
             }
             else

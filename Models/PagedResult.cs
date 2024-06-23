@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace LearnHubFO.Models
 {
@@ -12,5 +13,8 @@ namespace LearnHubFO.Models
 
         public bool HasPreviousPage => PageIndex > 1;
         public bool HasNextPage => PageIndex < TotalPages;
+
+        public int FirstItemIndex => (PageIndex - 1) * PageSize + 1;
+        public int LastItemIndex => Math.Min(PageIndex * PageSize, TotalItems);
     }
 }
