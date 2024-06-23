@@ -25,98 +25,102 @@
         <div style="margin-right: 20px; display: flex; align-items: center;">
             <p style="margin: 0;">@Model.FirstItemIndex - @Model.LastItemIndex sur @Model.TotalItems éléments</p>
         </div>
-        <nav aria-label="Page navigation" style="display: flex; align-items: center;">
-            <ul class="pagination mb-0">
-                @if (Model.HasPreviousPage)
-                {
-                    <li class="page-item">
-                        <a class="page-link" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex - 1)" asp-route-pageSize="@(Model.PageSize)">Précédent</a>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item disabled">
-                        <span class="page-link">Précédent</span>
-                    </li>
-                }
-
-                @if (Model.PageIndex >= 1)
-                {
-                    if (1 == Model.PageIndex)
+        <form method="get" asp-action="Index" class="form-inline">
+            <input type="hidden" name="searchTerm" value="@ViewData["SearchTerm"]" />
+            <input type="hidden" name="pageSize" value="@ViewData["PageSize"]" />
+            <nav aria-label="Page navigation" style="display: flex; align-items: center;">
+                <ul class="pagination mb-0">
+                    @if (Model.HasPreviousPage)
                     {
-                        <li class="page-item active">
-                            <a class="page-link" asp-action="Index" asp-route-pageIndex="1" asp-route-pageSize="@(Model.PageSize)">1</a>
+                        <li class="page-item">
+                            <button type="submit" name="pageIndex" value="@(Model.PageIndex - 1)" class="page-link">Précédent</button>
                         </li>
                     }
                     else
                     {
-                        <li class="page-item">
-                            <a class="page-link" asp-action="Index" asp-route-pageIndex="1" asp-route-pageSize="@(Model.PageSize)">1</a>
+                        <li class="page-item disabled">
+                            <span class="page-link">Précédent</span>
                         </li>
                     }
 
-                }
-
-                @if (Model.PageIndex > 4)
-                {
-                    <li class="page-item disabled">
-                        <span class="page-link">...</span>
-                    </li>
-                }
-
-                @for (int i = Math.Max(2, Model.PageIndex - 2); i <= Math.Min(Model.TotalPages - 1, Model.PageIndex + 2); i++)
-                {
-                    if (i == Model.PageIndex)
+                    @if (Model.PageIndex >= 1)
                     {
-                        <li class="page-item active">
-                            <span class="page-link">@i</span>
+                        if (1 == Model.PageIndex)
+                        {
+                            <li class="page-item active">
+                                <button type="submit" name="pageIndex" value="1" class="page-link">1</button>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                <button type="submit" name="pageIndex" value="1" class="page-link">1</button>
+                            </li>
+                        }
+
+                    }
+
+                    @if (Model.PageIndex > 4)
+                    {
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    }
+
+                    @for (int i = Math.Max(2, Model.PageIndex - 2); i <= Math.Min(Model.TotalPages - 1, Model.PageIndex + 2); i++)
+                    {
+                        if (i == Model.PageIndex)
+                        {
+                            <li class="page-item active">
+                                <span class="page-link">@i</span>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                <button type="submit" name="pageIndex" value="@i" class="page-link">@i</button>
+                            </li>
+                        }
+                    }
+
+                    @if (Model.PageIndex < Model.TotalPages - 3)
+                    {
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    }
+
+                    @if (Model.PageIndex <= Model.TotalPages && Model.TotalPages != 1)
+                    {
+                        if (Model.TotalPages == Model.PageIndex)
+                        {
+                            <li class="page-item active">
+                                <button type="submit" name="pageIndex" value="@Model.TotalPages" class="page-link">@Model.TotalPages</button>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="page-item">
+                                <button type="submit" name="pageIndex" value="@Model.TotalPages" class="page-link">@Model.TotalPages</button>
+                            </li>
+                        }
+                    }
+
+                    @if (Model.HasNextPage)
+                    {
+                        <li class="page-item">
+                            <button type="submit" name="pageIndex" value="@(Model.PageIndex + 1)" class="page-link">Suivant</button>
                         </li>
                     }
                     else
                     {
-                        <li class="page-item">
-                            <a class="page-link" asp-action="Index" asp-route-pageIndex="@i" asp-route-pageSize="@(Model.PageSize)">@i</a>
+                        <li class="page-item disabled">
+                            <span class="page-link">Suivant</span>
                         </li>
                     }
-                }
-
-                @if (Model.PageIndex < Model.TotalPages - 3)
-                {
-                    <li class="page-item disabled">
-                        <span class="page-link">...</span>
-                    </li>
-                }
-
-                @if (Model.PageIndex <= Model.TotalPages && Model.TotalPages!=1)
-                {
-                    if (Model.TotalPages == Model.PageIndex)
-                    {
-                        <li class="page-item active">
-                            <a class="page-link" asp-action="Index" asp-route-pageIndex="@(Model.TotalPages)" asp-route-pageSize="@(Model.PageSize)">@Model.TotalPages</a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="page-item">
-                            <a class="page-link" asp-action="Index" asp-route-pageIndex="@(Model.TotalPages)" asp-route-pageSize="@(Model.PageSize)">@Model.TotalPages</a>
-                        </li>
-                    }
-                }
-
-                @if (Model.HasNextPage)
-                {
-                    <li class="page-item">
-                        <a class="page-link" asp-action="Index" asp-route-pageIndex="@(Model.PageIndex + 1)" asp-route-pageSize="@(Model.PageSize)">Suivant</a>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item disabled">
-                        <span class="page-link">Suivant</span>
-                    </li>
-                }
-            </ul>
-        </nav>
+                </ul>
+            </nav>
+        </form>
     </div>
     <table class="table">
         <thead>
