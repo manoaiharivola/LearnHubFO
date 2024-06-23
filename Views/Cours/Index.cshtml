@@ -1,0 +1,41 @@
+﻿@model IEnumerable<LearnHubBackOffice.Models.Cours>
+
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<h2>Courses</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.TitreCours)</th>
+            <th>@Html.DisplayNameFor(model => model.Description)</th>
+            <th>@Html.DisplayNameFor(model => model.DateCreationCours)</th>
+            <th>@Html.DisplayNameFor(model => model.DateModificationCours)</th>
+            <th>Formateur</th>
+            <th>Categorie</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.TitreCours)</td>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>@Html.DisplayFor(modelItem => item.DateCreationCours)</td>
+                <td>@Html.DisplayFor(modelItem => item.DateModificationCours)</td>
+                <td>@Html.DisplayFor(modelItem => item.Formateur.NomFormateur)</td>
+                <td>@Html.DisplayFor(modelItem => item.CoursCategorie.NomCoursCategorie)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdCours" class="btn btn-primary">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdCours" class="btn btn-info">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdCours" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-success">Create New</a>
