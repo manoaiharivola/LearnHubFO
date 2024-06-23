@@ -1,14 +1,37 @@
-﻿@model LearnHubBO.Models.Chapitre
+﻿@model LearnHubFO.Models.ConsulterChapitre
 
 <div style="margin: 50px 200px 0 200px;">
     <div style="float: right;">
         <a href="@Url.Action("ExportChapitreToPdf", "Cours", new { id = Model.IdChapitre })" class="btn btn-primary">Exporter en PDF</a>
     </div>
-    <h2>Chapitre @Model.Ordre - @Model.TitreChapitre</h2>
+    <a href="@Url.Action("Details", "Cours", new { id = Model.IdCours })" class="btn btn-light">Retour au cours</a>
+    
+    <h2 style="margin-top : 50px; ">Chapitre @Model.Ordre - @Model.TitreChapitre</h2>
     <br />
     <div class="col-sm-10" style="background-color: white; padding: 20px; overflow-x: auto;">
         @Html.Raw(Model.Contenu)
     </div>
+    <hr />
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        @if (Model.PreviousChapitreId.HasValue)
+        {
+            <a href="@Url.Action("Chapitre", "Cours", new { id = Model.PreviousChapitreId })" class="btn btn-outline-dark">Consulter précédent chapitre</a>
+        }
+        else
+        {
+            <button class="btn btn-outline-dark" disabled>Consulter précédent chapitre</button>
+        }
+
+        <button class="btn btn-success">Marquer comme terminé</button>
+
+        @if (Model.NextChapitreId.HasValue)
+        {
+            <a href="@Url.Action("Chapitre", "Cours", new { id = Model.NextChapitreId })" class="btn btn-outline-dark">Consulter prochain chapitre</a>
+        }
+        else
+        {
+            <button class="btn btn-outline-dark" disabled>Consulter prochain chapitre</button>
+        }
+    </div>
     <br />
-    <a href="@Url.Action("Details", "Cours", new { id = Model.IdCours })" class="btn btn-light">Retour au cours</a>
 </div>
