@@ -40,6 +40,10 @@ namespace LearnHubFO.Controllers
             {
                 return NotFound();
             }
+
+            var chapitres = await _coursesService.GetChapitresByCourseIdAsync(id);
+            ViewData["Chapitres"] = chapitres;
+
             return View(course);
         }
     }
