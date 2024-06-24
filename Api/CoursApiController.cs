@@ -13,12 +13,10 @@ namespace LearnHubFO.Api
     public class CoursApiController : ControllerBase
     {
         private readonly CoursService _coursService;
-        private readonly ChapitreService _chapitreService;
 
-        public CoursApiController(CoursService coursService, ChapitreService chapitreService)
+        public CoursApiController(CoursService coursService)
         {
             _coursService = coursService;
-            _chapitreService = chapitreService;
         }
 
         [HttpGet]
@@ -52,10 +50,10 @@ namespace LearnHubFO.Api
             return Ok(cours);
         }
 
-        [HttpGet("{courseId}/chapitres")]
-        public async Task<IActionResult> GetChapitresOfaCourse(int courseId)
+        [HttpGet("{courseId}/chapitres/utilisateur/{userId}")]
+        public async Task<IActionResult> GetChapitresOfaCourse(int courseId, int userId)
         {
-            var chapitres = await _chapitreService.GetChapitresByCourseIdAsync(courseId);
+            var chapitres = await _coursService.GetChapitresByCourseIdAsync(courseId, userId);
             return Ok(chapitres);
         }
     }

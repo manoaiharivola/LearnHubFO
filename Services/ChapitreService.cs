@@ -61,34 +61,5 @@ namespace LearnHubFO.Services
             }
             return chapitre;
         }
-
-        public async Task<List<Chapitre>> GetChapitresByCourseIdAsync(int courseId)
-        {
-            var chapitres = new List<Chapitre>();
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                var command = new SqlCommand(
-                    "SELECT * FROM Chapitres WHERE IdCours = @IdCours ORDER BY Ordre", connection);
-                command.Parameters.AddWithValue("@IdCours", courseId);
-                await connection.OpenAsync();
-                using (var reader = await command.ExecuteReaderAsync())
-                {
-                    while (await reader.ReadAsync())
-                    {
-                        chapitres.Add(new Chapitre
-                        {
-                            IdChapitre = reader.GetInt32(reader.GetOrdinal("IdChapitre")),
-                            TitreChapitre = reader.GetString(reader.GetOrdinal("TitreChapitre")),
-                            Ordre = reader.GetInt32(reader.GetOrdinal("Ordre")),
-                            Contenu = reader.GetString(reader.GetOrdinal("Contenu")),
-                            IdCours = reader.GetInt32(reader.GetOrdinal("IdCours")),
-                            DateCreationChapitre = reader.GetDateTime(reader.GetOrdinal("DateCreationChapitre")),
-                            DateModificationChapitre = reader.GetDateTime(reader.GetOrdinal("DateModificationChapitre"))
-                        });
-                    }
-                }
-            }
-            return chapitres;
-        }
     }
 }
