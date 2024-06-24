@@ -44,7 +44,7 @@ app.UseAuthorization();
 app.Use(async (context, next) =>
 {
     var user = context.User;
-    if (!user.Identity.IsAuthenticated && !context.Request.Path.StartsWithSegments("/Utilisateurs"))
+    if (!user.Identity.IsAuthenticated && !context.Request.Path.StartsWithSegments("/Utilisateurs") && !context.Request.Path.StartsWithSegments("/api"))
     {
         context.Response.Redirect("/Utilisateurs/Login");
     }

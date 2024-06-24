@@ -2,11 +2,13 @@
 using LearnHubFO.Services;
 using Microsoft.AspNetCore.Mvc;
 using LearnHubFO.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LearnHubFO.Api
 {
     [Route("api/utilisateurs/")]
     [ApiController]
+    [AllowAnonymous]
     public class UtilisateursApiController : ControllerBase
     {
         private readonly UtilisateursService _utilisateursService;
@@ -42,7 +44,7 @@ namespace LearnHubFO.Api
                 var user = _utilisateursService.GetUserByEmail(loginModel.Email);
                 if (user != null && user.VerifyPassword(loginModel.Password))
                 {
-                    return Ok(new { message = "Login successful" });
+                    return Ok(new { message = "Login successful", userId = user.IdUtilisateur });
                 }
 
                 return Unauthorized(new { message = "Invalid email or password" });
