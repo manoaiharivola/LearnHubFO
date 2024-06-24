@@ -1,4 +1,5 @@
 ﻿using LearnHubBackOffice.Models;
+using LearnHubFO.Models;
 using LearnHubFO.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -22,6 +23,19 @@ namespace LearnHubFO.Api
         public async Task<ActionResult<List<Cours>>> GetAllCourses()
         {
             var courses = await _coursService.GetAllCoursesAsync();
+            return Ok(courses);
+        }
+
+        [HttpGet("utilisateur/{userId}")]
+        public async Task<ActionResult<List<CoursSuivi>>> GetCoursesByUserId(int userId)
+        {
+            var courses = await _coursService.GetCoursesByUserIdAsync(userId);
+            foreach (var course in courses)
+            {
+                var (totalChapitres, completedChapitres) = await _coursService.GetChapitreProgressAsync(course.IdCours, userId);
+                course.TotalChapitres = totalChapitres;
+                course.CompletedChapitres = completedChapitres;
+            }
             return Ok(courses);
         }
     }

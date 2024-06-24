@@ -305,5 +305,54 @@ namespace LearnHubFO.Services
             return courses;
         }
 
+        public async Task<List<CoursSuivi>> GetCoursesByUserIdAsync(int userId)
+        {
+            var courses = new List<CoursSuivi>();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                var command = new SqlCommand(
+                    "SELECT c.*, f.NomFormateur, f.Email AS FormateurEmail, cc.NomCoursCategorie AS CoursCategorieNom, cu.DateCreationCoursUtilisateur " +
+                    "FROM Courses c " +
+                    "JOIN Formateurs f ON c.IdFormateur = f.IdFormateur " +
+                    "JOIN CoursCategories cc ON c.IdCoursCategorie = cc.IdCoursCategorie " +
+                    "JOIN CoursUtilisateur cu ON cu.IdCours = c.IdCours " +
+                    "WHERE cu.IdUtilisateur = @UserId " +
+                    "ORDER BY cu.DateCreationCoursUtilisateur DESC",
+                    connection);
+                command.Parameters.AddWithValue("@UserId", userId);
+                await connection.OpenAsync();
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        courses.Add(new CoursSuivi
+                        {
+                            IdCours = reader.GetInt32(reader.GetOrdinal("IdCours")),
+                            TitreCours = reader.IsDBNull(reader.GetOrdinal("TitreCours")) ? "N/A" : reader.GetString(reader.GetOrdinal("TitreCours")),
+                            Description = reader.IsDBNull(reader.GetOrdinal("Description")) ? "N/A" : reader.GetString(reader.GetOrdinal("Description")),
+                            DateCreationCours = reader.GetDateTime(reader.GetOrdinal("DateCreationCours")),
+                            DateModificationCours = reader.GetDateTime(reader.GetOrdinal("DateModificationCours")),
+                            IdFormateur = reader.GetInt32(reader.GetOrdinal("IdFormateur")),
+                            IdCoursCategorie = reader.GetInt32(reader.GetOrdinal("IdCoursCategorie")),
+                            Formateur = new Formateur
+                            {
+                                IdFormateur = reader.GetInt32(reader.GetOrdinal("IdFormateur")),
+                                Email = reader.IsDBNull(reader.GetOrdinal("FormateurEmail")) ? "N/A" : reader.GetString(reader.GetOrdinal("FormateurEmail")),
+                                NomFormateur = reader.IsDBNull(reader.GetOrdinal("NomFormateur")) ? "N/A" : reader.GetString(reader.GetOrdinal("NomFormateur"))
+                            },
+                            CoursCategorie = new CoursCategorie
+                            {
+                                IdCoursCategorie = reader.GetInt32(reader.GetOrdinal("IdCoursCategorie")),
+                                NomCoursCategorie = reader.IsDBNull(reader.GetOrdinal("CoursCategorieNom")) ? "N/A" : reader.GetString(reader.GetOrdinal("CoursCategorieNom"))
+                            },
+                            DateCreationCoursUtilisateur = reader.GetDateTime(reader.GetOrdinal("DateCreationCoursUtilisateur"))
+                        });
+                    }
+                }
+            }
+            return courses;
+        }
+
+
     }
 }
