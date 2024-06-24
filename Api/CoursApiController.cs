@@ -38,5 +38,16 @@ namespace LearnHubFO.Api
             }
             return Ok(courses);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Cours>> GetCoursById(int id)
+        {
+            var cours = await _coursService.GetCoursByIdAsync(id);
+            if (cours == null)
+            {
+                return NotFound(new { message = "Course not found" });
+            }
+            return Ok(cours);
+        }
     }
 }
