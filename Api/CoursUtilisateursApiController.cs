@@ -34,5 +34,23 @@ namespace LearnHubFO.Api
             await _coursUtilisateurService.SuivreCoursAsync(utilisateurId, courseId);
             return Ok(new { message = "Course followed successfully" });
         }
+
+        [HttpDelete("{courseId}/utilisateur/{userId}/nePlusSuivre")]
+        public async Task<IActionResult> NePlusSuivreCours(int courseId, int userId)
+        {
+            if (userId <= 0 || courseId <= 0)
+            {
+                return BadRequest(new { message = "Invalid user ID or course ID" });
+            }
+
+            var estSuivi = await _coursUtilisateurService.EstCoursSuiviAsync(userId, courseId);
+            if (!estSuivi)
+            {
+                return NotFound(new { message = "Course not followed by user" });
+            }
+
+            await _coursUtilisateurService.NePlusSuivreCoursAsync(userId, courseId);
+            return Ok(new { message = "Course unfollowed successfully" });
+        }
     }
 }
