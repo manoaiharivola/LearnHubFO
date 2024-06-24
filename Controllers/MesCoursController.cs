@@ -4,9 +4,11 @@ using LearnHubFO.Services;
 using LearnHubFO.Models;
 using System.Security.Claims;
 using LearnHubBackOffice.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LearnHubFO.Controllers
 {
+    [Authorize]
     public class MesCoursController : Controller
     {
         private readonly CoursService _coursesService;
